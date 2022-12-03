@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="EXT:downloadlibrary/Resources/Private/Language/locallang_db.xlf" date="2021-11-21T08:36:35Z"
+		product-name="downloadlibrary">
+		<header />
+		<body>
+			<trans-unit id="tx_downloadlibrary_domain_model_download">
+				<source>Download</source>
+			</trans-unit>
+			<trans-unit id="tx_downloadlibrary_domain_model_download.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_downloadlibrary_domain_model_download.done_at">
+				<source>Done At</source>
+			</trans-unit>
+
+			<trans-unit id="tx_downloadlibrary_domain_model_user.info_mail_when_repeated_download_added">
+				<source>Should an info email be sent when a download repeats?</source>
+			</trans-unit>
+			<trans-unit id="tx_downloadlibrary_domain_model_user.tab_settings">
+				<source>Download library</source>
+			</trans-unit>
+			<trans-unit id="tx_downloadlibrary_domain_model_user.tx_extbase_type">
+				<source>Download library</source>
+			</trans-unit>
+
+
+		</body>
+	</file>
+</xliff>

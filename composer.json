@@ -1,0 +1,30 @@
+{
+	"name" : "cylancer/download_library",
+	"type" : "typo3-cms-extension",
+	"description" : "A simple download library for documents and protocols.",
+	"license" : "GPL-2.0-or-later",
+	"require" : {
+		"typo3/cms-core" : "^11.5"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Cylancer\\DownloadLibrary\\" : "Classes"
+		}
+	},
+	"authors" : [{
+			"name" : "Clemens Gogolin",
+			"email" : "service@cylancer.net",
+			"role" : "developer",
+			"homepage" : "https://github.com/docmcfly/download_library"
+		}
+	],
+	"support" : {
+		"issues" : "https://github.com/docmcfly/download_library/issues",
+		"source" : "https://github.com/docmcfly/download_library"
+	},
+	"extra" : {
+		"typo3/cms" : {
+			"extension-key" : "downloadlibrary"
+		}
+	}
+}

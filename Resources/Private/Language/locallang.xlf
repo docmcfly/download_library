@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="EXT:downloadlibrary/Resources/Private/Language/locallang.xlf" date="2021-11-21T08:36:35Z"
+		product-name="downloadlibrary">
+		<header />
+		<body>
+
+
+			<trans-unit id="downloadLibrary.openDocuments">
+				<source>Open documents</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.currentEmpty">
+				<source>The list of open documents is current empty</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.isFinal">
+				<source>Final version</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.isDraft">
+				<source>Draft</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.status">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.document.offer">
+				<source>Provided by</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.unkonwnOffer">
+				<source>Unknow person</source>
+			</trans-unit>
+
+
+			<trans-unit id="downloadLibrary.addDocument">
+				<source>Add a new document</source>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.form.title">
+				<source>Document title</source>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.form.file">
+				<source>File</source>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.form.status">
+				<source>Status</source>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.form.submit">
+				<source>Save</source>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.form.error.title.empty">
+				<source>None title</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.error.status.invalid">
+				<source>The status date is invalid.</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.error.uploadFile.noFile">
+				<source>No File exist</source>
+			</trans-unit>
+
+
+			<trans-unit id="downloadLibrary.archive">
+				<source>Archive</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archivedDocuments.currentEmpty">
+				<source>The list of archived documents is current empty</source>
+			</trans-unit>
+
+
+			<trans-unit id="downloadLibrary.archive.document.offer">
+				<source>Provided by</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.document.status">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.01">
+				<source>January</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.02">
+				<source>February</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.03">
+				<source>March</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.04">
+				<source>April</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.05">
+				<source>May</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.06">
+				<source>June</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.07">
+				<source>July</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.08">
+				<source>August</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.09">
+				<source>September</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.10">
+				<source>October</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.11">
+				<source>November</source>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.12">
+				<source>December</source>
+			</trans-unit>
+
+
+
+
+
+
+		</body>
+	</file>
+</xliff>
