@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//WC//DTD XHTML . Strict//EN"
+	"http://www.w.org/TR/xhtml/DTD/xhtml-strict.dtd">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" xmlns="http://www.w.org//xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+</head>
+<body>
+	<f:layout name="Default" />
+	<f:section name="content">
+		<f:asset.script identifier="downloadlibrary_jquery.min.js" src="EXT:download_library/Resources/Public/JavaScript/jquery.min.js" defer="true" priority="true" />
+		<f:asset.script identifier="downloadlibrary_bootstrap-datepicker.min.js" src="EXT:download_library/Resources/Public/JavaScript/bootstrap-datepicker.min.js"
+			defer="true"
+		/>
+		<f:asset.script identifier="downloadlibrary_custom-datepicker.js" src="EXT:download_library/Resources/Public/JavaScript/custom-datepicker.js" defer="true" />
+		<script>
+			var confirmArchiveDocumentQuestion = '<f:translate key="downloadlibrary.form.confirmArchiveDocumentQuestion"/>';
+			var confirmRemoveDocumentQuestion = '<f:translate key="downloadlibrary.form.confirmRemoveDocumentQuestion"/>';
+		</script>
+		<div class="container pl-0">
+			<div class="row ">
+				<div class="col">
+					<h2>
+						<f:translate key="downloadLibrary.openDocuments" />
+					</h2>
+				</div>
+			</div>
+			<f:if condition="{openDocuments}">
+				<f:else>
+					<f:translate key="downloadLibrary.openDocuments.currentEmpty" />
+				</f:else>
+			</f:if>
+			<f:for each="{openDocuments}" as="document">
+				<div class="row">
+					<div class="col-8 col-lg-10 col-sm-12 form-check">
+						<f:link.file file="{document.fileReference.0.originalResource.originalFile}">
+							<h3>
+								{document.title} (&nbsp;
+								<f:if condition="{document.final}">
+									<f:then>
+										<f:translate key="downloadLibrary.openDocuments.isFinal" />
+									</f:then>
+									<f:else>
+										<f:translate key="downloadLibrary.openDocuments.isDraft" />
+									</f:else>
+								</f:if>
+								&nbsp;)
+							</h3>
+						</f:link.file>
+						<div class="small">
+							<f:translate key="downloadLibrary.openDocuments.status" />
+							:
+							<f:format.date format="d.m.Y">{document.status}</f:format.date>
+						</div>
+						<div class="small">
+							<f:translate key="downloadLibrary.openDocuments.document.offer" />
+							:
+							<f:if condition="{document.owner}">
+								<f:then>{document.owner.firstName}&nbsp;{document.owner.lastName}</f:then>
+								<f:else>
+									<f:translate key="downloadLibrary.openDocuments.unkonwnOffer" />
+								</f:else>
+							</f:if>
+						</div>
+					</div>
+					<div class="col-2 col-lg-1 col-sm-3 col-xs-4 form-check">
+						<f:form action="removeDocument" name="document" object="{document}" enctype="multipart/form-data">
+							<f:form.submit class="btn btn-primary btn-lg" style="width:3em;" value="{f:translate(key: 'downloadLibrary.form.removeDocument')}"
+								title="{f:translate(key: 'downloadLibrary.form.removeDocument.title')}" onclick="return window.confirm(confirmRemoveDocumentQuestion);"
+							/>
+						</f:form>
+					</div>
+					<f:if condition="{document.final}">
+						<f:then>
+							<div class="col-2 col-lg-1 col-sm-3 col-xs-4 form-check">
+								<f:form action="archiveDocument" name="document" object="{document}" enctype="multipart/form-data">
+									<f:form.submit class="btn btn-primary btn-lg" style="width:3em;" value="{f:translate(key: 'downloadLibrary.form.archiveDocument')}"
+										title="{f:translate(key: 'downloadLibrary.form.archiveDocument.title')}" onclick="return window.confirm(confirmArchiveDocumentQuestion);"
+									/>
+								</f:form>
+							</div>
+						</f:then>
+					</f:if>
+				</div>
+			</f:for>
+			<f:if condition="{canAddDocuments}">
+				<div class="row ">
+					<div class="col">
+						<h2 class="mt-3">
+							<f:translate key="downloadLibrary.addDocument" />
+						</h2>
+					</div>
+				</div>
+				<f:render partial="validationResults" arguments="{prefix:'downloadLibrary.form', validationResults: validationResults}" />
+				<f:form action="upload" object="{document}" class="form" name="document" enctype="multipart/form-data">
+					<div class="form-group">
+						<label id="titleLabel" for="title"><f:translate key="downloadLibrary.form.title" /></label>
+						<f:form.textfield id="title" name="title" property="title" class="form-control" />
+					</div>
+					<div class="col-8 col-lg-10 col-sm-12 form-check">
+						<f:form.checkbox id="final" name="final" property="final" class="form-check-input" value="1" />
+						<label id="finalLabel" for="final"><f:translate key="downloadLibrary.form.final" /></label>
+					</div>
+					<div class="form-group">
+						<label id=uploadedFileLabel " for="file"><f:translate key="downloadLibrary.form.file" /></label>
+						<f:form.upload id="file" name="file" property="uploadedFile" class="form-control" additionalAttributes="{accept:'application/pdf'}" class="form-input"
+							id="uploadedFile"
+						/>
+					</div>
+					<div class="form-group">
+						<label id="statusLabel" for="status"><f:translate key="downloadLibrary.form.status" /></label>
+						<f:form.textfield id="status" name="status" property="status" class="form-control datepicker" />
+					</div>
+					<div class="form-group">
+						<f:form.submit class="btn btn-primary btn-lg" disabled="{existsErrors}" value="{f:translate(key: 'downloadLibrary.form.submit')}" />
+					</div>
+				</f:form>
+			</f:if>
+			<div class="row ">
+				<div class="col">
+					<h2 class="mt-3">
+						<f:translate key="downloadLibrary.archive" />
+					</h2>
+				</div>
+			</div>
+			<f:if condition="{archivedDocuments}">
+				<f:else>
+					<f:translate key="downloadLibrary.archivedDocuments.currentEmpty" />
+				</f:else>
+			</f:if>
+			<f:for each="{archivedDocuments}" key="month" as="documents">
+				<div class="row ">
+					<div class="col">
+						<h3 class="bg-primary text-light" style="font-weight: bold; padding: 3px;">
+							<f:translate key="downloadLibrary.archive.month.{month}" />
+						</h3>
+					</div>
+				</div>
+				<f:for each="{documents}" as="document">
+					<f:link.file file="{document.fileReference.0.originalResource.originalFile}">{document.title}</f:link.file>
+					<div class="small">
+						<f:translate key="downloadLibrary.archive.document.status" />
+						:
+						<f:format.date format="d.m.Y">{document.status}</f:format.date>
+					</div>
+					<div class="small">
+						<f:translate key="downloadLibrary.archive.document.offer" />
+						:
+						<f:if condition="{document.owner}">
+							<f:then>{document.owner.firstName}&nbsp;{document.owner.lastName}</f:then>
+							<f:else>
+								<f:translate key="downloadLibrary.archive.unkonwnOffer" />
+							</f:else>
+						</f:if>
+					</div>
+				</f:for>
+			</f:for>
+		</div>
+	</f:section>
+</body>
+</html>

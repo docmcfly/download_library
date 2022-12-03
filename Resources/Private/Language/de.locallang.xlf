@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="EXT:downloadlibrary/Resources/Private/Language/locallang.xlf" date="2021-11-21T08:36:35Z"
+		product-name="downloadlibrary">
+		<header />
+		<body>
+
+			<trans-unit id="downloadLibrary.openDocuments">
+				<source>Open documents</source>
+				<target state="tanslated">Offenen Dokumente</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.currentEmpty">
+				<source>The list of open documents is current empty</source>
+				<target state="tanslated">Aktuell keine offenen Dokumente</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.isFinal">
+				<source>Final version</source>
+				<target state="tanslated">Finale Version</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.isDraft">
+				<source>Draft</source>
+				<target state="tanslated">Entwurf</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.status">
+				<source>Status</source>
+				<target state="tanslated">Stand</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.document.offer">
+				<source>Provided by</source>
+				<target state="tanslated">Bereigestellt von</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.openDocuments.unkonwnOffer">
+				<source>Unknow person</source>
+				<target state="tanslated">Unbekannte Person</target>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.addDocument">
+				<source>Add a new document</source>
+				<target state="tanslated">Neues Dokument hinzufügen</target>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.form.title">
+				<source>Document title</source>
+				<target state="tanslated">Dokumententitel</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.file">
+				<source>File</source>
+				<target state="tanslated">Datei</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.status">
+				<source>Status</source>
+				<target state="tanslated">Stand</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.final">
+				<source>final version</source>
+				<target state="tanslated">finale Version</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.archiveDocument">
+				<source>🗃</source>
+				<target state="tanslated">🗃</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.archiveDocument.title">
+				<source>Archives the document</source>
+				<target state="tanslated">Dokument archivieren</target>
+			</trans-unit>
+			<trans-unit id="downloadlibrary.form.confirmArchiveDocumentQuestion">
+				<source>You are sure? Do you want archive the document?</source>
+				<target state="tanslated">Sind Sie sicher, dass Sie das Dokument archivieren wollen?</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.removeDocument">
+				<source>🗑</source>
+				<target state="tanslated">🗑</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.removeDocument.title">
+				<source>Deletes the document</source>
+				<target state="tanslated">Dokument löschen</target>
+			</trans-unit>
+			<trans-unit id="downloadlibrary.form.confirmRemoveDocumentQuestion">
+				<source>You are sure? Do you want delete the document?</source>
+				<target state="tanslated">Sind Sie sicher, dass Sie das Dokument löschen wollen?</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.final">
+				<source>final version</source>
+				<target state="tanslated">finale Version</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.final">
+				<source>final version</source>
+				<target state="tanslated">finale Version</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.submit">
+				<source>Save</source>
+				<target state="tanslated">Speichern</target>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.form.error.title.empty">
+				<source>None title</source>
+				<target state="tanslated">Kein Titel angeben</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.error.status.invalid">
+				<source>The status date is invalid.</source>
+				<target state="tanslated">Der Stand ist kein gültiges Datum.</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.form.error.uploadFile.noFile">
+				<source>No File exist</source>
+				<target state="tanslated">Keine Datei angeben oder die Datei existiert nicht.</target>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.archive">
+				<source>Archive</source>
+				<target state="tanslated">Archiv</target>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.archivedDocuments.currentEmpty">
+				<source>The list of archived documents is current empty</source>
+				<target state="tanslated">Aktuell keine archivierten Dokumente vorhanden</target>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.archive.document.offer">
+				<source>Provided by</source>
+				<target state="tanslated">Bereitgestellt von</target>
+			</trans-unit>
+
+			<trans-unit id="downloadLibrary.archive.document.status">
+				<source>Status</source>
+				<target state="tanslated">Stand</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.01">
+				<source>January</source>
+				<target state="tanslated">Januar</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.02">
+				<source>February</source>
+				<target state="tanslated">Februar</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.03">
+				<source>March</source>
+				<target state="tanslated">März</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.04">
+				<source>April</source>
+				<target state="tanslated">April</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.05">
+				<source>May</source>
+				<target state="tanslated">Mai</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.06">
+				<source>June</source>
+				<target state="tanslated">Juni</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.07">
+				<source>July</source>
+				<target state="tanslated">Juli</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.08">
+				<source>August</source>
+				<target state="tanslated">August</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.09">
+				<source>September</source>
+				<target state="tanslated">September</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.10">
+				<source>October</source>
+				<target state="tanslated">Oktober</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.11">
+				<source>November</source>
+				<target state="tanslated">November</target>
+			</trans-unit>
+			<trans-unit id="downloadLibrary.archive.month.12">
+				<source>December</source>
+				<target state="tanslated">Dezember</target>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>
+
+
