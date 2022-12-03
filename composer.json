@@ -1,37 +1,29 @@
 {
-	"name" : "cylanver/downloadlibrary",
+	"name" : "cylancer/download_library",
 	"type" : "typo3-cms-extension",
+	"description" : "A simple download library for documents and protocols.",
 	"license" : "GPL-2.0-or-later",
 	"require" : {
-		"typo3/cms-core" : "^10.4"
-	},
-	"require-dev" : {
-		"typo3/testing-framework" : "^6.8"
+		"typo3/cms-core" : "^11.5"
 	},
 	"autoload" : {
 		"psr-4" : {
 			"Cylancer\\DownloadLibrary\\" : "Classes"
 		}
 	},
-	"autoload-dev" : {
-		"psr-4" : {
-			"Cylancer\\DownloadLibrary\\Tests\\" : "Tests"
+	"authors" : [{
+			"name" : "Clemens Gogolin",
+			"email" : "service@cylancer.net",
+			"role" : "developer",
+			"homepage" : "https://github.com/docmcfly/download_library"
 		}
-	},
-	"replace" : {
-		"typo3-ter/downloadlibrary" : "self.version"
-	},
-	"config" : {
-		"vendor-dir" : ".Build/vendor",
-		"bin-dir" : ".Build/bin"
-	},
-	"scripts" : {
-		"post-autoload-dump" : "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
+	],
+	"support" : {
+		"issues" : "https://github.com/docmcfly/download_library/issues",
+		"source" : "https://github.com/docmcfly/download_library"
 	},
 	"extra" : {
 		"typo3/cms" : {
-			"cms-package-dir" : "{$vendor-dir}/typo3/cms",
-			"web-dir" : ".Build/public",
 			"extension-key" : "downloadlibrary"
 		}
 	}
