@@ -58,6 +58,9 @@
 			<trans-unit id="downloadLibrary.form.error.uploadFile.noFile">
 				<source>No File exist</source>
 			</trans-unit>
+			<trans-unit id="downloadLibrary.form.error.notOwner ">
+				<source>You are not the onwner of this document.</source>
+			</trans-unit>
 
 
 			<trans-unit id="downloadLibrary.archive">

@@ -68,11 +68,10 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
         $this->view->assign('document', $document);
         $allDocs = $this->documentRepository->getSortedDocuments();
-
         $this->view->assign('openDocuments', $allDocs['open']);
         $this->view->assign('archivedDocuments', $allDocs['archived']);
         $this->view->assign('validationResults', $validationResults);
-
+        $this->view->assign('user', $this->frontendUserService->getCurrentUser());
         $canAddDocuments = false;
         if ($this->settings['providedByGroup'] != null && is_numeric($this->settings['providedByGroup'])) {
             $canAddDocuments = in_array(intval($this->settings['providedByGroup']), $this->frontendUserService->getUserSubGroups($this->frontendUserService->getCurrentUser()));
@@ -87,7 +86,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         /** @var ValidationResults $validationResults **/
         $validationResults = $this->validateRemove($document);
 
-        if (! $validationResults->hasErrors()) {
+        if (!$validationResults->hasErrors()) {
 
             // one image exists:
 
@@ -104,9 +103,9 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
         return (new ForwardResponse('show'))
             ->withArguments([
-            DocumentBoardController::VALIDATION_RESULTS => $validationResults,
-            DocumentBoardController::DOCUMENT => new Document()
-        ]);
+                DocumentBoardController::VALIDATION_RESULTS => $validationResults,
+                DocumentBoardController::DOCUMENT => new Document()
+            ]);
     }
 
     /**
@@ -131,7 +130,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         /** @var ValidationResults $validationResults **/
         $validationResults = $this->validateRemove($document);
 
-        if (! $validationResults->hasErrors()) {
+        if (!$validationResults->hasErrors()) {
             $document->setArchived(true);
             $this->documentRepository->update($document);
             $this->persistenceManager->persistAll();
@@ -139,8 +138,8 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
         return (new ForwardResponse('show'))
             ->withArguments([
-            DocumentBoardController::VALIDATION_RESULTS => $validationResults
-        ]);
+                DocumentBoardController::VALIDATION_RESULTS => $validationResults
+            ]);
     }
 
     /**
@@ -156,7 +155,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         if ($this->frontendUserService->getCurrentUserUid() !== $document->getOwner()->getUid()) {
             $validationResults->addError('notOwner');
         }
-        if (! $document->getFinal()) {
+        if (!$document->getFinal()) {
             $validationResults->addError('notFinal');
         }
 
@@ -168,7 +167,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         /** @var ValidationResults $validationResults **/
         $validationResults = $this->validateUpload($document);
 
-        if (! $validationResults->hasErrors()) {
+        if (!$validationResults->hasErrors()) {
 
             $document->setOwner($this->frontendUserService->getCurrentUser());
             $document->setStatus($this->transformDate($document->getStatus()));
@@ -183,20 +182,19 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         } else {
             return (new ForwardResponse('show'))
                 ->withArguments([
-                DocumentBoardController::VALIDATION_RESULTS => $validationResults,
-                DocumentBoardController::DOCUMENT => $document
-            ]);
+                    DocumentBoardController::VALIDATION_RESULTS => $validationResults,
+                    DocumentBoardController::DOCUMENT => $document
+                ]);
         }
     }
 
     /**
      * transform from dd.mm.yyyy to yyyy-mm-dd
      *
-     * @param
-     *            String germanDate
-     * @return String
+     * @param string germanDate
+     * @return string
      */
-    private function transformDate(String $germanDate): String
+    private function transformDate(string $germanDate): string
     {
         return \DateTime::createFromFormat('!' . DocumentBoardController::GERMAN_DATE_FORMAT, $germanDate)->format(DocumentBoardController::STANDARD_DATE_FORMAT);
     }
@@ -218,7 +216,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
             $storage = $storageRepository->getDefaultStorage();
             /** @var Folder $folder **/
-            if (! $storage->checkFolderActionPermission('write', $storage->getFolder($this->settings['documentsFolder']))) {
+            if (!$storage->checkFolderActionPermission('write', $storage->getFolder($this->settings['documentsFolder']))) {
                 $validationResults->addError('documentsFolderPermissionDenied');
             }
         }
@@ -238,7 +236,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $error = $document->getUploadedFile()['error'];
         if ($error !== UPLOAD_ERR_NO_FILE) {
             $fileExtension = PathUtility::pathinfo($document->getUploadedFile()['name'], PATHINFO_EXTENSION);
-            if (! GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], strtolower($fileExtension))) {
+            if (!GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], strtolower($fileExtension))) {
                 $validationResults->addError('uploadFile.fileFormatNotSupported', [
                     $fileExtension
                 ]);
@@ -254,8 +252,8 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
     {
         if ($this->_validationResults == null) {
             $this->_validationResults = ($this->request->hasArgument(DocumentBoardController::VALIDATION_RESULTS)) ? //
-            $this->request->getArgument(DocumentBoardController::VALIDATION_RESULTS) : //
-            new ValidationResults();
+                $this->request->getArgument(DocumentBoardController::VALIDATION_RESULTS) : //
+                new ValidationResults();
         }
         return $this->_validationResults;
     }

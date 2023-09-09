@@ -1,11 +1,14 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
+
+use Cylancer\DownloadLibrary\Domain\Model\FrontendUser;
+use Cylancer\DownloadLibrary\Domain\Model\FrontendUserGroup;
+
 return [
-    \Cylancer\DownloadLibrary\Domain\Model\FrontendUser::class => [
+    FrontendUser::class => [
         'tableName' => 'fe_users'
     ],
-    \Cylancer\DownloadLibrary\Domain\Model\FrontendUserGroup::class => [
+    FrontendUserGroup::class => [
         'tableName' => 'fe_groups'
     ],
 ];
-

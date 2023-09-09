@@ -16,9 +16,6 @@ use Cylancer\DownloadLibrary\Domain\Model\Document;
 class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
-    protected $defaultOrderings = array(
-        'status' => QueryInterface::ORDER_ASCENDING
-    );
 
     public function getSortedDocuments(int $months = 12)
     {
@@ -29,7 +26,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         /* @var QueryInterface $query */
         $query = $this->createQuery();
         $query->lessThan('status', $now->add(new \DateInterval('P' . $months . 'M')));
-
+        $query->setOrderings(['status' => QueryInterface::ORDER_DESCENDING]);
         $return = array();
         $return['archived'] = array();
         $return['open'] = array();
@@ -41,6 +38,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $return['open'][] = $document;
             }
         }
+        $return['open'] = array_reverse($return['open'], true);
         return $return;
     }
 }

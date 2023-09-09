@@ -5,16 +5,16 @@
 	</div>
 </f:for>
 <f:if condition="{validationResults.errors}">
-	<script>
-		$(document).ready(function() {
-		<f:for each="{validationResults.errors}" as="error">
-			$('#{error.id}Label').addClass('error');
-		</f:for>
+	<script defer="defer">
+		$(document).ready(function () {
+			<f:for each="{validationResults.errors}" as="error">
+				$('#{error.id}Label').addClass('error');
+			</f:for>
 		})
 	</script>
 	<f:for each="{validationResults.errors}" as="error" key="errorKey">
 		<div class="alert alert-danger">
-			<f:translate key="{prefix}.{errorKey}" arguments="{error.arguments}"/>
+			<f:translate key="{prefix}.{errorKey}" arguments="{error.arguments}" />
 		</div>
 	</f:for>
 </f:if>
