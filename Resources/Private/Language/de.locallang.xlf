@@ -104,6 +104,10 @@
 				<source>No File exist</source>
 				<target state="tanslated">Keine Datei angeben oder die Datei existiert nicht.</target>
 			</trans-unit>
+			<trans-unit id="downloadLibrary.form.error.notOwner ">
+				<source>You are not the onwner of this document.</source>
+				<target state="tanslated">Sie sind nicht der Dokumenteninhaber.</target>
+			</trans-unit>
 
 			<trans-unit id="downloadLibrary.archive">
 				<source>Archive</source>
@@ -176,5 +180,3 @@
 		</body>
 	</file>
 </xliff>
-
-

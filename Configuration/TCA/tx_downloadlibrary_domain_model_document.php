@@ -124,7 +124,7 @@ return [
         'file_reference' => [
             'exclude' => true,
             'label' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.file',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+            'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
                 'file_reference',
                 [
                     'maxitems' => 6,
