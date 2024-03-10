@@ -14,7 +14,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2022 Clemens Gogolin <service@cylancer.net>
+ * (c) 2024 by Clemens Gogolin <service@cylancer.net>
  *
  * @package Cylancer\DownloadLibrary\Domain\Repository
  *         

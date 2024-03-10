@@ -27,10 +27,11 @@
 							<exclude>1</exclude>
 							<label>LLL:EXT:download_library/Resources/Private/Language/locallang_be_documentboard.xlf:flexforms_general.settings.documentsFolder.title
 							</label>
+							
 							<config>
-								<type>select</type>
-								<renderType>selectSingle</renderType>
-								<itemsProcFunc>Cylancer\DownloadLibrary\Backend\Form\FolderItems->addFolderItems</itemsProcFunc>
+								<type>folder</type>
+								<maxitems>1</maxitems>	
+								<autoSizeMax>1</autoSizeMax>
 							</config>
 						</TCEforms>
 					</settings.documentsFolder>

@@ -1,41 +1,37 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="EXT:downloadlibrary/Resources/Private/Language/locallang_db.xlf" date="2021-11-21T08:36:35Z" product-name="downloadlibrary">
+	<file source-language="en" datatype="plaintext" original="EXT:download_library/Resources/Private/Language/locallang_db.xlf" date="2021-11-21T08:36:35Z" product-name="downloadlibrary">
 		<header/>
 		<body>
 			<trans-unit id="tx_downloadlibrary_domain_model_download">
-				<source>Download</source>
-				<target state="tanslated">Aufgabe</target>
+				<source>Document</source>
+				<target state="tanslated">Dokument</target>
 			</trans-unit>
 			<trans-unit id="tx_downloadlibrary_domain_model_download.title">
-				<source>Title</source>
-				<target state="tanslated">Aufgabenbeschreibung</target>
+				<source>Document</source>
+				<target state="tanslated">Dokument</target>
 			</trans-unit>
-			<trans-unit id="tx_downloadlibrary_domain_model_download.done_at">
-				<source>Done At</source>
-				<target state="tanslated">Erledigt am</target>
+			<trans-unit id="tx_downloadlibrary_domain_model_download.file">
+				<source>Document</source>
+				<target state="tanslated">Dokument</target>
 			</trans-unit>
-			<trans-unit id="tx_downloadlibrary_domain_model_download.user">
-				<source>User</source>
-				<target state="tanslated">Nutzer</target>
+			<trans-unit id="tx_downloadlibrary_domain_model_download.owner">
+				<source>Owner</source>
+				<target state="tanslated">Besitzer</target>
 			</trans-unit>
-			
-			<trans-unit id="tx_downloadlibrary_domain_model_user.info_mail_when_repeated_download_added">
-				<source>Should an info email be sent when a download repeats?</source>
-				<target state="tanslated">Soll eine Info-E-Mail versandt werden, wenn eine Aufgabe sich wiederholt?</target>
+			<trans-unit id="tx_downloadlibrary_domain_model_download.status">
+				<source>Status of the document</source>
+				<target state="tanslated">Stand des Dokuments</target>
 			</trans-unit>
-			<trans-unit id="tx_downloadlibrary_domain_model_user.tab_settings">
-				<source>Download library</source>
-				<target state="tanslated">Aufgabenverwaltung</target>
+			<trans-unit id="tx_downloadlibrary_domain_model_download.final">
+				<source>Is final</source>
+				<target state="tanslated">Ist die finale Version</target>
 			</trans-unit>
-			<trans-unit id="tx_downloadlibrary_domain_model_user.tx_extbase_type">
-				<source>Download library</source>
-				<target state="tanslated">Aufgabenverwaltung</target>
+			<trans-unit id="tx_downloadlibrary_domain_model_download.archived">
+				<source>Is archived</source>
+				<target state="tanslated">Ist archiviert</target>
 			</trans-unit>
-			
-			
-			
-			
+	
 		</body>
 	</file>
 </xliff>

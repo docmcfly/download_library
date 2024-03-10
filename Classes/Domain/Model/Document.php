@@ -7,12 +7,12 @@ use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
- * This file is part of the "Download library" extension for TYPO3 CMS.
+ * This file is part of the "Download library" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2022 by Clemens Gogolin <service@cylancer.net>
+ * (c) 2024 by Clemens Gogolin <service@cylancer.net>
  */
 class Document extends AbstractEntity
 {
@@ -26,7 +26,7 @@ class Document extends AbstractEntity
     /** @var bool */
     protected $archived = false;
 
-    /** @var String */
+    /** @var string */
     protected $status = null;
 
     /** @var FrontendUser */
@@ -35,7 +35,7 @@ class Document extends AbstractEntity
     /**  @var array */
     protected $uploadedFile;
 
-    /** @var String */
+    /** @var string */
     protected $title = '';
 
     /**
@@ -67,19 +67,19 @@ class Document extends AbstractEntity
 
     /**
      *
-     * @return String
+     * @return string
      */
-    public function getStatus():? String
+    public function getStatus():? string
     {
         return $this->status;
     }
 
     /**
      *
-     * @param String $status
+     * @param string $status
      * @return void
      */
-    public function setStatus(?String $status): void
+    public function setStatus(?string $status): void
     {
         $this->status = $status;
     }
@@ -189,7 +189,7 @@ class Document extends AbstractEntity
      *
      * @return string
      */
-    public function getTitle(): String
+    public function getTitle(): string
     {
         return $this->title;
     }

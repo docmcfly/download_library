@@ -20,12 +20,12 @@ use Symfony\Component\Config\Resource\FileResource;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * This file is part of the "document board" Extension for TYPO3 CMS.
+ * This file is part of the "Download library" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2020 C. Gogolin <service@cylancer.net>
+ * (c) 2024 by Clemens Gogolin <service@cylancer.net>
  * C. Gogolin <service@cylancer.net>
  *
  * @package Cylancer\DownloadLibrary\Controller
@@ -64,7 +64,9 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $validationResults = $this->getValidationResults();
 
         /** @var Document $document */
-        $document = ($this->request->hasArgument(DocumentBoardController::DOCUMENT)) ? $this->request->getArgument(DocumentBoardController::DOCUMENT) : new Document();
+        $document = ($this->request->hasArgument(DocumentBoardController::DOCUMENT))
+            ? $this->request->getArgument(DocumentBoardController::DOCUMENT)
+            : new Document();
 
         $this->view->assign('document', $document);
         $allDocs = $this->documentRepository->getSortedDocuments();
@@ -101,7 +103,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $this->persistenceManager->persistAll();
         }
 
-        return (new ForwardResponse('show'))
+        return GeneralUtility::makeInstance(ForwardResponse::class, 'show')
             ->withArguments([
                 DocumentBoardController::VALIDATION_RESULTS => $validationResults,
                 DocumentBoardController::DOCUMENT => new Document()
@@ -136,7 +138,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $this->persistenceManager->persistAll();
         }
 
-        return (new ForwardResponse('show'))
+        return GeneralUtility::makeInstance(ForwardResponse::class, 'show')
             ->withArguments([
                 DocumentBoardController::VALIDATION_RESULTS => $validationResults
             ]);
@@ -164,6 +166,10 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
     public function uploadAction(Document $document)
     {
+        if ($this->request->hasArgument('uploadedFile')) {
+            $document->setUploadedFile($this->request->getArgument('uploadedFile'));
+        }
+
         /** @var ValidationResults $validationResults **/
         $validationResults = $this->validateUpload($document);
 
@@ -180,7 +186,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             $this->persistenceManager->persistAll();
             return $this->redirect('show');
         } else {
-            return (new ForwardResponse('show'))
+            return GeneralUtility::makeInstance(ForwardResponse::class, 'show')
                 ->withArguments([
                     DocumentBoardController::VALIDATION_RESULTS => $validationResults,
                     DocumentBoardController::DOCUMENT => $document
@@ -199,6 +205,11 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         return \DateTime::createFromFormat('!' . DocumentBoardController::GERMAN_DATE_FORMAT, $germanDate)->format(DocumentBoardController::STANDARD_DATE_FORMAT);
     }
 
+
+    private function getDocumentsFolder():string {
+        return explode(':', $this->settings['documentsFolder'])[1];
+    }
+
     /**
      *
      * @param Document $document
@@ -209,18 +220,23 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         /** @var ValidationResults $validationResults **/
         $validationResults = $this->getValidationResults();
 
-        if (empty(trim($this->settings['documentsFolder']))) {
+        $documentsFolder = $this->getDocumentsFolder();
+
+        if (empty(trim( $documentsFolder))) {
             $validationResults->addError('documentsFolderNotSpecified');
         } else {
             /** @var StorageRepository $storageRepository **/
             $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
             $storage = $storageRepository->getDefaultStorage();
             /** @var Folder $folder **/
-            if (!$storage->checkFolderActionPermission('write', $storage->getFolder($this->settings['documentsFolder']))) {
+            try {
+                if (!$storage->checkFolderActionPermission('write', $storage->getFolder( $documentsFolder))) {
+                    $validationResults->addError('documentsFolderPermissionDenied');
+                }
+            } catch (\Exception $e) {
                 $validationResults->addError('documentsFolderPermissionDenied');
             }
         }
-
         if (empty(trim($document->getTitle()))) {
             $validationResults->addError('title.empty');
         }
@@ -232,7 +248,6 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                 $validationResults->addError('status.invalid');
             }
         }
-
         $error = $document->getUploadedFile()['error'];
         if ($error !== UPLOAD_ERR_NO_FILE) {
             $fileExtension = PathUtility::pathinfo($document->getUploadedFile()['name'], PATHINFO_EXTENSION);
@@ -274,7 +289,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $storage = $storageRepository->getDefaultStorage();
 
         /** @var Folder $folder **/
-        $folder = $storage->getFolder($this->settings['documentsFolder']);
+        $folder = $storage->getFolder($this->getDocumentsFolder());
 
         /** @var FileInterface $imageFile **/
         $imageFile = $folder->addFile($tmpFile, $document->getUploadedFile()['name'], DuplicationBehavior::RENAME);
@@ -286,7 +301,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
         /** @var \TYPO3\CMS\Extbase\Domain\Model\File $fileModel **/
         $file = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Domain\Model\File::class);
-        $file->setOriginalResource($coreFile);
+     //   $file->setOriginalResource($coreFile);
 
         /** @var FileReference $coreFileReference **/
         $coreFileReference = GeneralUtility::makeInstance(FileReference::class, [

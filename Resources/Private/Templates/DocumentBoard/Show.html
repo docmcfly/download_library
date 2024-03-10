@@ -67,7 +67,7 @@
 						</div>
 					</div>
 					
-					<f:if condition="{document.owner.uid == user.uid}">
+					<f:if condition="{document.owner.uid} == {user.uid}">
 						<f:then>
 							<div class="col-2 col-lg-1 col-sm-3 col-xs-4 form-check">
 								<f:form action="removeDocument" name="document" object="{document}"

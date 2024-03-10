@@ -9,7 +9,7 @@ namespace Cylancer\DownloadLibrary\Domain\Model;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2022 Clemens Gogolin <service@cylancer.net>
+ * (c) 2024 by Clemens Gogolin <service@cylancer.net>
  *
  * @package Cylancer\DownloadLibrary\Domain\Model
  */
@@ -69,10 +69,10 @@ class ValidationResults
     
     /**
      *
-     * @param String $errorKey
+     * @param string $errorKey
      * @param array $arguments
      */
-    public function addInfo(String $infoKey, array $arguments = []): void
+    public function addInfo(string $infoKey, array $arguments = []): void
     {
         $keySplit = explode('.', $infoKey, 2);
         $this->infos['info.' . $infoKey]['arguments'] = $arguments;
@@ -81,10 +81,10 @@ class ValidationResults
     
     /**
      *
-     * @param String $errorKey
+     * @param string $errorKey
      * @param array $arguments
      */
-    public function addError(String $errorKey, array $arguments = []): void
+    public function addError(string $errorKey, array $arguments = []): void
     {
         $keySplit = explode('.', $errorKey, 2);
         $this->errors['error.' . $errorKey]['arguments'] = $arguments;

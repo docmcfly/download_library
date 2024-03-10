@@ -1,17 +1,17 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 namespace Cylancer\DownloadLibrary\Domain\Repository;
 
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use Cylancer\DownloadLibrary\Domain\Model\Document;
 
 /**
- * This file is part of the "Download library" extension for TYPO3 CMS.
+ * This file is part of the "Download library" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2022 by Clemens Gogolin <service@cylancer.net>
+ * (c) 2024 by Clemens Gogolin <service@cylancer.net>
  */
 class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
@@ -33,7 +33,7 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         /* @var Document $document */
         foreach ($query->execute() as $document) {
             if ($document->getArchived()) {
-                $return['archived'][ explode('-', $document->getStatus())[1] ][] = $document;
+                $return['archived'][explode('-', $document->getStatus())[1]][] = $document;
             } else {
                 $return['open'][] = $document;
             }
