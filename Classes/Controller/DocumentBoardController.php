@@ -69,7 +69,6 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             : new Document();
 
         $this->view->assign('document', $document);
-
         $allDocs = $this->documentRepository->getSortedDocuments();
         $this->view->assign('openDocuments', $allDocs['open']);
         $this->view->assign('archivedDocuments', $allDocs['archived']);
