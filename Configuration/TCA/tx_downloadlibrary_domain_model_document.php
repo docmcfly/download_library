@@ -4,7 +4,8 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download',
-        'label' => 'uid',
+        'label' => 'title',
+        'descriptionColumn' => 'status',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
@@ -16,14 +17,15 @@ return [
         'enablecolumns' => [
             'disabled' => 'hidden',
             'starttime' => 'starttime',
-            'endtime' => 'endtime'
+            'endtime' => 'endtime',
+            'status' => 'status',
         ],
         'searchFields' => 'status',
-        'iconfile' => 'EXT:download_library/Resources/Public/Icons/tx_downloadlibrary_domain_model_download.gif'
+        'iconfile' => 'EXT:download_library/Resources/Public/Icons/document.svg'
     ],
     'types' => [
         '1' => [
-            'showitem' => 'file_reference, owner, status, final'
+            'showitem' => 'file_reference, owner, status, final, archived'
         ]
     ],
     'columns' => [
@@ -37,7 +39,7 @@ return [
                 'items' => [
                     [
                         'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-                        - 1,
+                        -1,
                         'flags-multiple'
                     ]
                 ],
@@ -114,24 +116,23 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.title',
             'config' => [
+                'readOnly' => true,
                 'type' => 'input',
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
             ],
         ],
-        
+
         'file_reference' => [
             'exclude' => true,
             'label' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.file',
-            'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
-                'file_reference',
-                [
-                    'maxitems' => 6,
-                    'minitems'=> 0
-                ],
-                'pdf'
-                )
+            'config' => [
+                'type' => 'file',
+                'maxitems' => 6,
+                'minitems' => 0,
+                'readOnly' => true,
+            ]
         ],
         'owner' => [
             'label' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.owner',
@@ -141,7 +142,7 @@ return [
                 'foreign_table' => 'fe_users',
                 'minitems' => 1,
                 'maxitems' => 1,
-            //    'readOnly' => true,
+                 'readOnly' => true,
             ]
         ],
         'final' => [
@@ -150,13 +151,14 @@ return [
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
+               // 'readOnly' => true,
                 'items' => [
                     [
                         0 => '',
                         1 => '',
                     ]
                 ]
-                
+
             ]
         ],
         'archived' => [
@@ -165,27 +167,28 @@ return [
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
+                'readOnly' => true,
                 'items' => [
                     [
                         0 => '',
                         1 => '',
                     ]
                 ]
-                
+
             ]
         ],
         'status' => [
             'exclude' => true,
             'label' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.status',
             'config' => [
+                'readOnly' => true,
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'eval' => 'date,int',
                 'dbType' => 'date',
                 'default' => 0,
-          //      'readOnly' => false,
             ]
         ],
-        
+
     ]
 ];

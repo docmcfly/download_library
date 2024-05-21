@@ -8,7 +8,7 @@ defined('TYPO3') or die();
 (static function (): void{
 
     ExtensionUtility::registerPlugin(
-        'Cylancer.DownloadLibrary',
+        'DownloadLibrary',
         'DocumentBoard',
         'LLL:EXT:download_library/Resources/Private/Language/locallang_be_documentboard.xlf:plugin.name',
         'EXT:download_library/Resources/Public/Icons/downloadlibrary_plugin_documentboard.svg'
