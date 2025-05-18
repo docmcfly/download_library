@@ -7,7 +7,7 @@
 
 			<trans-unit id="downloadLibrary.openDocuments">
 				<source>Open documents</source>
-				<target state="tanslated">Offenen Dokumente</target>
+				<target state="tanslated">Offene Dokumente</target>
 			</trans-unit>
 			<trans-unit id="downloadLibrary.openDocuments.currentEmpty">
 				<source>The list of open documents is current empty</source>

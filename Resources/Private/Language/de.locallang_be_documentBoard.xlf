@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext"  date="2021-11-21T08:36:35Z" product-name="downloadlibrary">
+		<header/>
+		<body>
+			<trans-unit id="plugin.name">
+				<source>Download library board</source>
+				<target state="tanslated">Download-Board</target>
+			</trans-unit>
+			<trans-unit id="plugin.description">
+				<source>Lists all downloads. User of a specified group can create and edit downloads.</source>
+				<target state="tanslated">Listet alle Download. Nutzer eine definierten Gruppe können Download bereitsstellen und ändern.</target>
+			</trans-unit>
+			<trans-unit id="flexforms_general.title">
+				<source>Settings</source>
+				<target state="tanslated">Einstellungen</target>
+			</trans-unit>
+			<trans-unit id="flexforms_general.settings.providedByGroup.title">
+				<source>Provided by</source>
+				<target state="tanslated">Bereitgestellt von</target>
+			</trans-unit>
+			<trans-unit id="flexforms_general.settings.documentsFolder.title">
+				<source>Document folder</source>
+				<target state="tanslated">Dokumentenordner</target>
+			</trans-unit>
+			
+		</body>
+	</file>
+</xliff>

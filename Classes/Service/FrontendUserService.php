@@ -1,14 +1,13 @@
 <?php
-namespace Cylancer\DownloadLibrary\Service;
+namespace Cylancer\CyDownloadLibrary\Service;
 
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Context\Context;
-use Cylancer\DownloadLibrary\Domain\Repository\FrontendUserRepository;
-use Cylancer\DownloadLibrary\Domain\Model\FrontendUser;
-use Cylancer\DownloadLibrary\Domain\Model\FrontendUserGroup;
+use Cylancer\CyDownloadLibrary\Domain\Repository\FrontendUserRepository;
+use Cylancer\CyDownloadLibrary\Domain\Model\FrontendUser;
+use Cylancer\CyDownloadLibrary\Domain\Model\FrontendUserGroup;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -17,39 +16,24 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2024 by Clemens Gogolin <service@cylancer.net>
- *
- * @package Cylancer\DownloadLibrary\Service
+ * (c) 2025 by C.Gogolin <service@cylancer.net>
  */
 class FrontendUserService implements SingletonInterface
 {
 
-    /** @var FrontendUserRepository   */
-    private $frontendUserRepository = null;
 
-    /**
-     *
-     * @param FrontendUserRepository $frontendUserRepository
-     */
-    public function __construct(FrontendUserRepository $frontendUserRepository)
-    {
-        $this->frontendUserRepository = $frontendUserRepository;
+    public function __construct(
+        private readonly FrontendUserRepository $frontendUserRepository,
+        private readonly Context $context,
+        private readonly ConnectionPool  $connectionPool
+    ) {
     }
 
-    /**
-     *
-     * @param object $obj
-     * @return int
-     */
     public static function getUid(AbstractEntity $entity): int
     {
         return $entity->getUid();
     }
 
-    /**
-     *
-     * @return FrontendUser Returns the current frontend user
-     */
     public function getCurrentUser(): FrontendUser|bool
     {
         if (!$this->isLogged()) {
@@ -58,37 +42,19 @@ class FrontendUserService implements SingletonInterface
         return $this->frontendUserRepository->findByUid($this->getCurrentUserUid());
     }
 
-    /**
-     *
-     * @return int
-     */
     public function getCurrentUserUid(): int
     {
         if (!$this->isLogged()) {
             return false;
         }
-        $context = GeneralUtility::makeInstance(Context::class);
-        return $context->getPropertyFromAspect('frontend.user', 'id');
+        return $this->context->getPropertyFromAspect('frontend.user', 'id');
     }
 
-    /**
-     * Check if the user is logged
-     *
-     * @return bool
-     */
     public function isLogged(): bool
     {
-        $context = GeneralUtility::makeInstance(Context::class);
-        return $context->getPropertyFromAspect('frontend.user', 'isLoggedIn');
+        return $this->context->getPropertyFromAspect('frontend.user', 'isLoggedIn');
     }
 
-    /**
-     *
-     * @param FrontendUserGroup $userGroup
-     * @param integer $fegid
-     * @param array $loopProtect
-     * @return boolean
-     */
     public function contains($userGroup, $feugid, &$loopProtect = array()): bool
     {
         if ($userGroup->getUid() == $feugid) {
@@ -106,23 +72,13 @@ class FrontendUserService implements SingletonInterface
         }
     }
 
-
-
-    /**
-     *
-     * @param string $table
-     * @return QueryBuilder
-     */
     protected function getQueryBuilder(string $table): QueryBuilder
     {
-        return GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        return $this->connectionPool->getQueryBuilderForTable($table);
     }
 
     /**
      * Returns an array with all subgroups of the frontend user to the root of groups...
-     *
-     * @param FrontendUser $frontendUser
-     * @return array
      */
     public function getUserSubGroups(FrontendUser $frontendUser): array
     {

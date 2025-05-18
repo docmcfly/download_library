@@ -1,9 +1,19 @@
 <?php
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-return [
+/**
+ * This file is part of the "Download library" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * (c) 2025 by C. Gogolin <service@cylancer.net>
+ *
+ */
+
+ return [
     'ctrl' => [
-        'title' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download',
+        'title' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download',
         'label' => 'title',
         'descriptionColumn' => 'status',
         'tstamp' => 'tstamp',
@@ -21,11 +31,11 @@ return [
             'status' => 'status',
         ],
         'searchFields' => 'status',
-        'iconfile' => 'EXT:download_library/Resources/Public/Icons/document.svg'
+        'iconfile' => 'EXT:cy_download_library/Resources/Public/Icons/document.svg'
     ],
     'types' => [
         '1' => [
-            'showitem' => 'file_reference, owner, status, final, archived'
+            'showitem' => 'file, owner, status, final, archived'
         ]
     ],
     'columns' => [
@@ -59,8 +69,8 @@ return [
                         0
                     ]
                 ],
-                'foreign_table' => 'tx_downloadlibrary_domain_model_document',
-                'foreign_table_where' => 'AND {#tx_downloadlibrary_domain_model_document}.{#pid}=###CURRENT_PID### AND {#tx_downloadlibrary_domain_model_document}.{#sys_language_uid} IN (-1,0)'
+                'foreign_table' => 'tx_cydownloadlibrary_domain_model_document',
+                'foreign_table_where' => 'AND {#tx_cydownloadlibrary_domain_model_document}.{#pid}=###CURRENT_PID### AND {#tx_cydownloadlibrary_domain_model_document}.{#sys_language_uid} IN (-1,0)'
             ]
         ],
         'l10n_diffsource' => [
@@ -114,7 +124,7 @@ return [
         ],
         'title' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.title',
+            'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.title',
             'config' => [
                 'readOnly' => true,
                 'type' => 'input',
@@ -123,31 +133,30 @@ return [
                 ],
             ],
         ],
-
-        'file_reference' => [
+        'file' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.file',
+            'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.file',
             'config' => [
                 'type' => 'file',
-                'maxitems' => 6,
-                'minitems' => 0,
-                'readOnly' => true,
+                'maxitems' => 1,
+                'minitems' => 1,
+                'readOnly' => false,
             ]
         ],
         'owner' => [
-            'label' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.owner',
+            'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.owner',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'fe_users',
                 'minitems' => 1,
                 'maxitems' => 1,
-                 'readOnly' => true,
+                 'readOnly' => false,
             ]
         ],
         'final' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.final',
+            'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.final',
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
@@ -163,11 +172,11 @@ return [
         ],
         'archived' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.archived',
+            'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.archived',
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
-                'readOnly' => true,
+                'readOnly' => false,
                 'items' => [
                     [
                         0 => '',
@@ -179,7 +188,7 @@ return [
         ],
         'status' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.status',
+            'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.status',
             'config' => [
                 'readOnly' => true,
                 'type' => 'input',

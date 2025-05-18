@@ -1,27 +1,17 @@
 <?php
 
-use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+/**
+ * This file is part of the "Download library" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * (c) 2025 by C. Gogolin <service@cylancer.net>
+ *
+ */
 
 defined('TYPO3') or die();
 
-(static function (): void{
+$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemGroups']['cyDownloadLibrary']
+    = 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_be.xlf:plugins.group.cyDownloadLibrary.name';
 
-    ExtensionUtility::registerPlugin(
-        'DownloadLibrary',
-        'DocumentBoard',
-        'LLL:EXT:download_library/Resources/Private/Language/locallang_be_documentboard.xlf:plugin.name',
-        'EXT:download_library/Resources/Public/Icons/downloadlibrary_plugin_documentboard.svg'
-    );
-
-
-    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['downloadlibrary_documentboard'] = 'pi_flexform';
-
-    ExtensionManagementUtility::addPiFlexFormValue(
-        // plugin signature: <extension key without underscores> '_' <plugin name in lowercase>
-        'downloadlibrary_documentboard',
-        // Flexform configuration schema file
-        'FILE:EXT:download_library/Configuration/FlexForms/DocumentBoard.xml'
-    );
-
-})();

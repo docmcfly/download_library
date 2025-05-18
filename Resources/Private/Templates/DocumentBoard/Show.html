@@ -9,13 +9,14 @@
 <body>
 	<f:layout name="Default" />
 	<f:section name="content">
-		<f:asset.css identifier="tx_downloadLibrary.css" href="EXT:download_library/Resources/Public/Css/tx_downloadLibrary.css" />
+		<f:asset.css identifier="tx_downloadLibrary.css"
+			href="EXT:cy_download_library/Resources/Public/Css/tx_downloadLibrary.css" />
 		<f:asset.script identifier="downloadlibrary_jquery.min.js"
-			src="EXT:download_library/Resources/Public/JavaScript/jquery.min.js" priority="true" />
+			src="EXT:cy_download_library/Resources/Public/JavaScript/jquery.min.js" priority="true" />
 		<f:asset.script identifier="downloadlibrary_bootstrap-datepicker.min.js"
-			src="EXT:download_library/Resources/Public/JavaScript/bootstrap-datepicker.min.js" defer="true" />
+			src="EXT:cy_download_library/Resources/Public/JavaScript/bootstrap-datepicker.min.js" defer="true" />
 		<f:asset.script identifier="downloadlibrary_custom-datepicker.js"
-			src="EXT:download_library/Resources/Public/JavaScript/custom-datepicker.js" defer="true" />
+			src="EXT:cy_download_library/Resources/Public/JavaScript/custom-datepicker.js" defer="true" />
 		<script>
 			var confirmArchiveDocumentQuestion = '<f:translate key="downloadlibrary.form.confirmArchiveDocumentQuestion"/>';
 			var confirmRemoveDocumentQuestion = '<f:translate key="downloadlibrary.form.confirmRemoveDocumentQuestion"/>';
@@ -36,20 +37,27 @@
 			<f:for each="{openDocuments}" as="document">
 				<div class="row">
 					<div class="col-8 col-lg-10 col-sm-12 form-check">
-						<f:link.file file="{document.fileReference.0.originalResource.originalFile}">
-							<h3>
-								{document.title} (&nbsp;
-								<f:if condition="{document.final}">
-									<f:then>
-										<f:translate key="downloadLibrary.openDocuments.isFinal" />
-									</f:then>
-									<f:else>
-										<f:translate key="downloadLibrary.openDocuments.isDraft" />
-									</f:else>
-								</f:if>
-								&nbsp;)
-							</h3>
-						</f:link.file>
+						<f:if condition="{document.file}">
+							<f:then>
+								<f:link.file file="{document.file.originalResource.originalFile}">
+									<h3>
+										{document.title} (&nbsp;
+										<f:if condition="{document.final}">
+											<f:then>
+												<f:translate key="downloadLibrary.openDocuments.isFinal" />
+											</f:then>
+											<f:else>
+												<f:translate key="downloadLibrary.openDocuments.isDraft" />
+											</f:else>
+										</f:if>
+										&nbsp;)
+									</h3>
+								</f:link.file>
+							</f:then>
+							<f:else>
+								<h3>file not found!</h3>
+							</f:else>
+						</f:if>
 						<div class="small">
 							<f:translate key="downloadLibrary.openDocuments.status" />
 							:
@@ -66,7 +74,7 @@
 							</f:if>
 						</div>
 					</div>
-					
+
 					<f:if condition="{document.owner.uid} == {user.uid}">
 						<f:then>
 							<div class="col-2 col-lg-1 col-sm-3 col-xs-4 form-check">
@@ -80,7 +88,7 @@
 							</div>
 						</f:then>
 						<f:else>
-							<div class="col-2 col-lg-1 col-sm-3 col-xs-4 form-check" >&nbsp;</div>
+							<div class="col-2 col-lg-1 col-sm-3 col-xs-4 form-check">&nbsp;</div>
 						</f:else>
 					</f:if>
 					<f:if condition="{document.owner.uid} == {user.uid} && {document.final}">
@@ -126,7 +134,7 @@
 							<f:translate key="downloadLibrary.form.file" />
 						</label>
 						<f:form.upload id="file" name="file" property="uploadedFile" class="form-control"
-							additionalAttributes="{accept:'application/pdf'}" class="form-input" id="uploadedFile" />
+							additionalAttributes="{accept:acceptedFileTypes}" class="form-input" id="uploadedFile" />
 					</div>
 					<div class="form-group">
 						<label id="statusLabel" for="status">
@@ -148,38 +156,74 @@
 				</div>
 			</div>
 			<f:if condition="{archivedDocuments}">
+				<f:then>
+					<ul class="nav nav-tabs">
+						<f:for each="{archivedDocuments}" key="year" as="months" iteration="yearIter">
+							<li class="nav-item">
+								<button class="nav-link {f:if(condition:'{yearIter.isFirst}', then: 'active')}"
+									aria-current="page" id="nav-year-{year}-tab" data-bs-toggle="tab"
+									data-bs-target="#nav-year-{year}" type="button" role="tab"
+									aria-controls="nav-year-{year}" aria-selected="true">{year}</button>
+							</li>
+						</f:for>
+					</ul>
+					<div class="tab-content mt-3" id="nav-tabContent">
+						<f:for each="{archivedDocuments}" key="year" as="months" iteration="yearIter">
+							<div class=" tab-pane fade {f:if(condition:'{yearIter.isFirst}', then: 'show active')}"
+								id="nav-year-{year}" role="year" aria-labelledby="nav-year-{year}-tab">
+								<f:for each="{months}" reverse="true" key="month" as="documents">
+									<div class="row ">
+										<div class="col">
+											<h3 class="border rounded border-primary px-3 py-2 fs-4">
+												<f:translate key="downloadLibrary.archive.month.{month}" />
+											</h3>
+										</div>
+									</div>
+									<ul>
+										<f:for each="{documents}" reverse="true" as="document">
+											<li style="list-style-type: square;">
+												<f:if condition="{document.file}">
+													<f:then>
+														<f:link.file
+															file="{document.file.originalResource.originalFile}">
+															{document.title}
+														</f:link.file>
+													</f:then>
+													<f:else>
+														<h3>file not found!</h3>
+													</f:else>
+												</f:if>
+												<div class="small">
+													<f:translate key="downloadLibrary.archive.document.status" />
+													:
+													<f:format.date format="d.m.Y">{document.status}</f:format.date>
+												</div>
+												<div class="small">
+													<f:translate key="downloadLibrary.archive.document.offer" />
+													:
+													<f:if condition="{document.owner}">
+														<f:then>
+															{document.owner.firstName}&nbsp;{document.owner.lastName}
+														</f:then>
+														<f:else>
+															<f:translate key="downloadLibrary.archive.unkonwnOffer" />
+														</f:else>
+													</f:if>
+												</div>
+											</li>
+										</f:for>
+									</ul>
+								</f:for>
+							</div>
+
+						</f:for>
+					</div>
+
+				</f:then>
 				<f:else>
 					<f:translate key="downloadLibrary.archivedDocuments.currentEmpty" />
 				</f:else>
 			</f:if>
-			<f:for each="{archivedDocuments}" key="month" as="documents">
-				<div class="row ">
-					<div class="col">
-						<h3 class="bg-primary text-light" style="font-weight: bold; padding: 3px;">
-							<f:translate key="downloadLibrary.archive.month.{month}" />
-						</h3>
-					</div>
-				</div>
-				<f:for each="{documents}" as="document">
-					<f:link.file file="{document.fileReference.0.originalResource.originalFile}">{document.title}
-					</f:link.file>
-					<div class="small">
-						<f:translate key="downloadLibrary.archive.document.status" />
-						:
-						<f:format.date format="d.m.Y">{document.status}</f:format.date>
-					</div>
-					<div class="small">
-						<f:translate key="downloadLibrary.archive.document.offer" />
-						:
-						<f:if condition="{document.owner}">
-							<f:then>{document.owner.firstName}&nbsp;{document.owner.lastName}</f:then>
-							<f:else>
-								<f:translate key="downloadLibrary.archive.unkonwnOffer" />
-							</f:else>
-						</f:if>
-					</div>
-				</f:for>
-			</f:for>
 		</div>
 	</f:section>
 </body>

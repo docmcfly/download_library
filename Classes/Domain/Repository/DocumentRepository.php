@@ -1,9 +1,8 @@
 <?php
 declare(strict_types=1);
-namespace Cylancer\DownloadLibrary\Domain\Repository;
+namespace Cylancer\CyDownloadLibrary\Domain\Repository;
 
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use Cylancer\DownloadLibrary\Domain\Model\Document;
 
 /**
  * This file is part of the "Download library" Extension for TYPO3 CMS.
@@ -11,13 +10,13 @@ use Cylancer\DownloadLibrary\Domain\Model\Document;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2024 by Clemens Gogolin <service@cylancer.net>
+ * (c) 2025 by C.Gogolin <service@cylancer.net>
  */
 class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
 
-    public function getSortedDocuments(int $months = 12)
+    public function getSortedDocuments(int $months = 120): array
     {
         $months = max($months, 0);
         /* @var \DateTime $now */
@@ -28,12 +27,13 @@ class DocumentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query->lessThan('status', $now->add(new \DateInterval('P' . $months . 'M')));
         $query->setOrderings(['status' => QueryInterface::ORDER_DESCENDING]);
         $return = array();
-        $return['archived'] = array();
-        $return['open'] = array();
+        $return['archived'] = [];
+        $return['open'] = [];
         /* @var Document $document */
         foreach ($query->execute() as $document) {
             if ($document->getArchived()) {
-                $return['archived'][explode('-', $document->getStatus())[1]][] = $document;
+                $splitStatus = explode('-', $document->getStatus());
+                $return['archived'][$splitStatus[0]][$splitStatus[1]][] = $document;
             } else {
                 $return['open'][] = $document;
             }

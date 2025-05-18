@@ -1,42 +1,28 @@
 <?php
-use Cylancer\DownloadLibrary\Controller\DocumentBoardController;
+use Cylancer\CyDownloadLibrary\Controller\DocumentBoardController;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
-defined('TYPO3') || die('Access denied.');
+/**
+ * This file is part of the "Download library" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * (c) 2025 by C. Gogolin <service@cylancer.net>
+ *
+ */
 
-call_user_func(function () {
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-        'DownloadLibrary',
-        'DocumentBoard',
-        [
-            DocumentBoardController::class => 'show, upload, removeDocument, archiveDocument'
-        ],
-        // non-cacheable actions
-        [
-            DocumentBoardController::class => 'show, upload, removeDocument, archiveDocument'
-        ]
-    );
+ defined('TYPO3') || die('Access denied.');
 
-    // wizards
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('mod {
-        wizards.newContentElement.wizardItems.plugins {
-            elements {
-                downloadlibrary-plugin-documentboard {
-                    iconIdentifier = downloadlibrary-plugin-documentboard
-                    title = LLL:EXT:download_library/Resources/Private/Language/locallang_be_documentboard.xlf:plugin.name
-                    description = LLL:EXT:download_library/Resources/Private/Language/locallang_be_documentboard.xlf:plugin.description
-                    tt_content_defValues {
-                        CType = list
-                        list_type = downloadlibrary_documentboard
-                    }
-                }
-            }
-            show = *
-        }
-    }');
-
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-    $iconRegistry->registerIcon('downloadlibrary-plugin-documentboard', \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class, [
-        'source' => 'EXT:download_library/Resources/Public/Icons/downloadlibrary_plugin_documentboard.svg'
-    ]);
-});
-
+ ExtensionUtility::configurePlugin(
+    'CyDownloadLibrary',
+    'DocumentBoard',
+    [
+        DocumentBoardController::class => 'show, upload, removeDocument, archiveDocument'
+    ],
+    // non-cacheable actions
+    [
+        DocumentBoardController::class => 'show, upload, removeDocument, archiveDocument'
+    ],
+    ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+);

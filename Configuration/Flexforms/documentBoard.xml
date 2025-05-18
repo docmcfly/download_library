@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3DataStructure>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:cy_download_library/Resources/Private/Language/locallang_be_documentBoard.xlf:flexforms_general.title
+					</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.providedByGroup>
+						<exclude>1</exclude>
+						<label>LLL:EXT:cy_download_library/Resources/Private/Language/locallang_be_documentBoard.xlf:flexforms_general.settings.providedByGroup.title
+						</label>
+						<config>
+							<type>select</type>
+							<renderType>selectSingle</renderType>
+							<foreign_table>fe_groups</foreign_table>
+							<minitems>1</minitems>
+						</config>
+					</settings.providedByGroup>
+					<settings.documentsFolder>
+						<exclude>1</exclude>
+						<label>LLL:EXT:cy_download_library/Resources/Private/Language/locallang_be_documentBoard.xlf:flexforms_general.settings.documentsFolder.title
+						</label>
+						<config>
+							<type>folder</type>
+							<maxitems>1</maxitems>
+							<autoSizeMax>1</autoSizeMax>
+						</config>
+					</settings.documentsFolder>
+
+				</el>
+			</ROOT>
+		</sDEF>
+	</sheets>
+</T3DataStructure>

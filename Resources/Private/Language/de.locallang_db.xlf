@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="EXT:download_library/Resources/Private/Language/locallang_db.xlf" date="2021-11-21T08:36:35Z" product-name="downloadlibrary">
+	<file source-language="en" datatype="plaintext" original="EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf" date="2021-11-21T08:36:35Z" product-name="downloadlibrary">
 		<header/>
 		<body>
 			<trans-unit id="tx_downloadlibrary_domain_model_download">
