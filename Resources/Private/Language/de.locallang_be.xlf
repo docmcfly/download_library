@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" product-name="cylancer cySendMails">
+		<header />
+		<body>
+
+			<!-- Plugin group -->
+			<trans-unit id="plugins.group.cyDownloadLibrary.name">
+				<source>Simple download library (management)</source>
+				<target state="tanslated">Einfache Downloadtbibliothek (Verwaltung)</target>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>

@@ -1,23 +1,22 @@
 <?php
-namespace Cylancer\DownloadLibrary\Controller;
+namespace Cylancer\CyDownloadLibrary\Controller;
 
+use Cylancer\CyDownloadLibrary\Domain\Model\Document;
+use Cylancer\CyDownloadLibrary\Domain\Repository\DocumentRepository;
+use Cylancer\CyDownloadLibrary\Service\FrontendUserService;
+use Cylancer\CyDownloadLibrary\Domain\Model\ValidationResults;
+
+use Psr\Http\Message\ResponseInterface;
+
+use TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior;
+use TYPO3\CMS\Extbase\Validation\Validator\MimeTypeValidator;
+use TYPO3\CMS\Extbase\Mvc\Controller\FileUploadConfiguration;
+use TYPO3\CMS\Extbase\Mvc\Controller\Argument;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Cylancer\DownloadLibrary\Domain\Model\Document;
-use Cylancer\DownloadLibrary\Domain\Repository\DocumentRepository;
-use Cylancer\DownloadLibrary\Service\FrontendUserService;
-use TYPO3\CMS\Core\Resource\StorageRepository;
-use TYPO3\CMS\Core\Resource\Folder;
-use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Core\Resource\DuplicationBehavior;
-use TYPO3\CMS\Core\Resource\File;
-use Cylancer\DownloadLibrary\Domain\Model\ValidationResults;
-use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
-use Symfony\Component\Config\Resource\FileResource;
-use Psr\Http\Message\ResponseInterface;
+
 
 /**
  * This file is part of the "Download library" Extension for TYPO3 CMS.
@@ -25,38 +24,39 @@ use Psr\Http\Message\ResponseInterface;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2024 by Clemens Gogolin <service@cylancer.net>
- * C. Gogolin <service@cylancer.net>
+ * (c) 2025 by C. Gogolin <service@cylancer.net>
  *
- * @package Cylancer\DownloadLibrary\Controller
  */
 class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
 
-    const GERMAN_DATE_FORMAT = 'd.m.Y';
+    private const GERMAN_DATE_FORMAT = 'd.m.Y';
 
-    const STANDARD_DATE_FORMAT = 'Y-m-d';
+    private const STANDARD_DATE_FORMAT = 'Y-m-d';
 
-    const VALIDATION_RESULTS = 'validationResults';
+    private const VALIDATION_RESULTS = 'validationResults';
 
-    const DOCUMENT = 'document';
+    private const DOCUMENT = 'document';
 
-    private $_validationResults = null;
+    private array $acceptedFileTypes = [
+        'application/pdf',
+        'image/jpeg',
+        'image/png',
+        'text/plain',
+        'application/vnd.oasis.opendocument.text',
+        'application/vnd.oasis.opendocument.spreadsheet',
+        'application/vnd.oasis.opendocument.presentation'
+    ];
 
-    /** @var FrontendUserService    */
-    private $frontendUserService = null;
 
-    /** @var DocumentRepository    */
-    private $documentRepository = null;
+    private ?ValidationResults $_validationResults = null;
 
-    /** @var PersistenceManager */
-    private $persistenceManager = null;
-
-    public function __construct(DocumentRepository $documentRepository, FrontendUserService $frontendUserService, PersistenceManager $persistenceManager)
-    {
-        $this->documentRepository = $documentRepository;
-        $this->frontendUserService = $frontendUserService;
-        $this->persistenceManager = $persistenceManager;
+    public function __construct(
+        private readonly DocumentRepository $documentRepository,
+        private readonly FrontendUserService $frontendUserService,
+        private readonly PersistenceManager $persistenceManager,
+        private readonly ResourceFactory $resourceFactory
+    ) {
     }
 
     public function showAction(): ResponseInterface
@@ -67,13 +67,14 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         $document = ($this->request->hasArgument(DocumentBoardController::DOCUMENT))
             ? $this->request->getArgument(DocumentBoardController::DOCUMENT)
             : new Document();
-
         $this->view->assign('document', $document);
 
         $allDocs = $this->documentRepository->getSortedDocuments();
         $this->view->assign('openDocuments', $allDocs['open']);
         $this->view->assign('archivedDocuments', $allDocs['archived']);
         $this->view->assign('validationResults', $validationResults);
+        $this->view->assign('acceptedFileTypes', implode(", ", $this->acceptedFileTypes));
+
         $this->view->assign('user', $this->frontendUserService->getCurrentUser());
         $canAddDocuments = false;
         if ($this->settings['providedByGroup'] != null && is_numeric($this->settings['providedByGroup'])) {
@@ -91,13 +92,7 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
         if (!$validationResults->hasErrors()) {
 
-            // one image exists:
-
-            /** @var \TYPO3\CMS\Extbase\Domain\Model\FileReference $fileReference **/
-            $fileReference = $document->getFileReference()->getArray()[0];
-
-            /** @var FileResource $fileResource */
-            $fileResource = GeneralUtility::makeInstance(ResourceFactory::class)->getFileReferenceObject($fileReference->getUid());
+            $fileResource = $this->resourceFactory->getFileReferenceObject($document->getFile()->getUid());
             $fileResource->getOriginalFile()->delete();
 
             $this->documentRepository->remove($document);
@@ -111,11 +106,6 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             ]);
     }
 
-    /**
-     *
-     * @param Document $document
-     * @return ValidationResults
-     */
     private function validateRemove(Document $document): ValidationResults
     {
         /** @var ValidationResults $validationResults **/
@@ -145,11 +135,6 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             ]);
     }
 
-    /**
-     *
-     * @param Document $document
-     * @return ValidationResults
-     */
     private function validateArchive(Document $document): ValidationResults
     {
         /** @var ValidationResults $validationResults **/
@@ -165,12 +150,30 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         return $validationResults;
     }
 
+    public function initializeUploadAction(): void
+    {
+        $mimeTypeValidator = GeneralUtility::makeInstance(MimeTypeValidator::class);
+        $mimeTypeValidator->setOptions([
+            'allowedMimeTypes' => $this->acceptedFileTypes
+        ]);
+
+        /** @var Argument */
+        $document = $this->arguments->getArgument('document');
+        $fileHandlingServiceConfiguration = $document->getFileHandlingServiceConfiguration();
+        $uploadConfiguration = (new FileUploadConfiguration('uploadedFile'))
+            ->addValidator($mimeTypeValidator)
+            ->setMaxFiles(1)
+            ->setUploadFolder($this->settings['documentsFolder'] . '/');
+
+        $uploadConfiguration->setDuplicationBehavior(DuplicationBehavior::RENAME);
+        $fileHandlingServiceConfiguration->addFileUploadConfiguration($uploadConfiguration);
+        $document->getPropertyMappingConfiguration()->skipProperties('uploadedFile');
+
+    }
+
+
     public function uploadAction(Document $document)
     {
-        if ($this->request->hasArgument('uploadedFile')) {
-            $document->setUploadedFile($this->request->getArgument('uploadedFile'));
-        }
-
         /** @var ValidationResults $validationResults **/
         $validationResults = $this->validateUpload($document);
 
@@ -182,10 +185,13 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             if ($this->frontendUserService->isLogged()) {
                 $document->setOwner($this->frontendUserService->getCurrentUser());
             }
-            $this->addFile($document);
+            $document->setFile($document->getUploadedFile());
+            $document->setUploadedFile(null);
+
             $this->documentRepository->add($document);
             $this->persistenceManager->persistAll();
             return $this->redirect('show');
+
         } else {
             return GeneralUtility::makeInstance(ForwardResponse::class, 'show')
                 ->withArguments([
@@ -197,47 +203,17 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
 
     /**
      * transform from dd.mm.yyyy to yyyy-mm-dd
-     *
-     * @param string germanDate
-     * @return string
      */
     private function transformDate(string $germanDate): string
     {
         return \DateTime::createFromFormat('!' . DocumentBoardController::GERMAN_DATE_FORMAT, $germanDate)->format(DocumentBoardController::STANDARD_DATE_FORMAT);
     }
 
-
-    private function getDocumentsFolder():string {
-        return explode(':', $this->settings['documentsFolder'])[1];
-    }
-
-    /**
-     *
-     * @param Document $document
-     * @return ValidationResults
-     */
     private function validateUpload(Document $document): ValidationResults
     {
         /** @var ValidationResults $validationResults **/
         $validationResults = $this->getValidationResults();
 
-        $documentsFolder = $this->getDocumentsFolder();
-
-        if (empty(trim( $documentsFolder))) {
-            $validationResults->addError('documentsFolderNotSpecified');
-        } else {
-            /** @var StorageRepository $storageRepository **/
-            $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-            $storage = $storageRepository->getDefaultStorage();
-            /** @var Folder $folder **/
-            try {
-                if (!$storage->checkFolderActionPermission('write', $storage->getFolder( $documentsFolder))) {
-                    $validationResults->addError('documentsFolderPermissionDenied');
-                }
-            } catch (\Exception $e) {
-                $validationResults->addError('documentsFolderPermissionDenied');
-            }
-        }
         if (empty(trim($document->getTitle()))) {
             $validationResults->addError('title.empty');
         }
@@ -249,22 +225,17 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                 $validationResults->addError('status.invalid');
             }
         }
-        $error = $document->getUploadedFile()['error'];
-        if ($error !== UPLOAD_ERR_NO_FILE) {
-            $fileExtension = PathUtility::pathinfo($document->getUploadedFile()['name'], PATHINFO_EXTENSION);
-            if (!GeneralUtility::inList($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], strtolower($fileExtension))) {
-                $validationResults->addError('uploadFile.fileFormatNotSupported', [
-                    $fileExtension
-                ]);
-            }
-        } else {
+        if (empty(trim($this->settings['documentsFolder']))) {
+            $validationResults->addError('documentsFolderNotSpecified');
+        }
+        if ($document->getUploadedFile() == null) {
             $validationResults->addError('uploadFile.noFile');
         }
 
         return $validationResults;
     }
 
-    private function getValidationResults()
+    private function getValidationResults(): ValidationResults
     {
         if ($this->_validationResults == null) {
             $this->_validationResults = ($this->request->hasArgument(DocumentBoardController::VALIDATION_RESULTS)) ? //
@@ -274,54 +245,5 @@ class DocumentBoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         return $this->_validationResults;
     }
 
-    /**
-     *
-     * @param array $uploadFileData
-     * @param Document $document
-     * @return void
-     */
-    private function addFile(Document $document): void
-    {
-        $tmpFile = $document->getUploadedFile()['tmp_name'];
 
-        // Save the imgae in the storage...
-        /** @var StorageRepository $storageRepository **/
-        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-        $storage = $storageRepository->getDefaultStorage();
-
-        /** @var Folder $folder **/
-        $folder = $storage->getFolder($this->getDocumentsFolder());
-
-        /** @var FileInterface $imageFile **/
-        $imageFile = $folder->addFile($tmpFile, $document->getUploadedFile()['name'], DuplicationBehavior::RENAME);
-
-        $storageRepository->flush();
-
-        /** @var File $file **/
-        $coreFile = $storage->getFileByIdentifier($imageFile->getIdentifier());
-
-        /** @var \TYPO3\CMS\Extbase\Domain\Model\File $fileModel **/
-        $file = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Domain\Model\File::class);
-     //   $file->setOriginalResource($coreFile);
-
-        /** @var FileReference $coreFileReference **/
-        $coreFileReference = GeneralUtility::makeInstance(FileReference::class, [
-            'uid_local' => $coreFile->getUid()
-        ]);
-
-        /** @var \TYPO3\CMS\Extbase\Domain\Model\FileReference $fileReference **/
-        if ($document->getFileReference()->count() > 0) {
-            /** @var FileReference $fileReference */
-            foreach ($document->getFileReference()->getArray() as $fileReference) {
-                $document->getFileReference()->remove($fileReference);
-                $fileResource = GeneralUtility::makeInstance(ResourceFactory::class)->getFileReferenceObject($fileReference->getUid());
-                $fileResource->getOriginalFile()->delete();
-            }
-        }
-
-        $fileReference = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Domain\Model\FileReference::class);
-        $fileReference->setOriginalResource($coreFileReference);
-
-        $document->addFileReference($fileReference);
-    }
 }

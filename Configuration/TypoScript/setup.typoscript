@@ -1,17 +1,17 @@
 plugin.tx_downloadlibrary {
 	view {
 		templateRootPaths {
-			0 = EXT:download_library/Resources/Private/Templates/
+			0 = EXT:cy_download_library/Resources/Private/Templates/
 			1 = {$plugin.tx_downloadlibrary.view.templateRootPath}
 		}
 
 		partialRootPaths {
-			0 = EXT:download_library/Resources/Private/Partials/
+			0 = EXT:cy_download_library/Resources/Private/Partials/
 			1 = {$plugin.tx_downloadlibrary.view.partialRootPath}
 		}
 
 		layoutRootPaths {
-			0 = EXT:download_library/Resources/Private/Layouts/
+			0 = EXT:cy_download_library/Resources/Private/Layouts/
 			1 = {$plugin.tx_downloadlibrary.view.layoutRootPath}
 		}
 	}
