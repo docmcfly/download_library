@@ -20,7 +20,7 @@
     'uploadfolder' => 0,
     'createDirs' => '',
     'clearCacheOnLoad' => 1,
-    'version' => '3.0.0',
+    'version' => '3.0.1',
     'constraints' => [
         'depends' => [
             'typo3' => '13.4.00-13.4.99',
@@ -34,6 +34,7 @@
 
 
 /** CHANGE-LOG
+ * 3.0.1   UPD  :: Update the TCA configuration
  * 3.0.0   UPD  :: to TYPO3 13.4.x
  * 2.0.0   UPD  :: to TYPO3 12.4.x
  * 1.0.1   FIX  :: Remove button is visible for document owner. 

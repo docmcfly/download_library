@@ -23,11 +23,15 @@
 				<source>Status of the document</source>
 				<target state="tanslated">Stand des Dokuments</target>
 			</trans-unit>
-			<trans-unit id="tx_downloadlibrary_domain_model_download.final">
-				<source>Is final</source>
+			<trans-unit id="tx_downloadlibrary_domain_model_download.properties">
+				<source>Properties</source>
+				<target state="tanslated">Eigenschaften</target>
+			</trans-unit>
+			<trans-unit id="tx_downloadlibrary_domain_model_download.property.final">
+				<source>Is final version</source>
 				<target state="tanslated">Ist die finale Version</target>
 			</trans-unit>
-			<trans-unit id="tx_downloadlibrary_domain_model_download.archived">
+			<trans-unit id="tx_downloadlibrary_domain_model_download.property.archived">
 				<source>Is archived</source>
 				<target state="tanslated">Ist archiviert</target>
 			</trans-unit>

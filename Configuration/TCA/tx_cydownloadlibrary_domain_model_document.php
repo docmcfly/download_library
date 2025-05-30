@@ -11,14 +11,13 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  *
  */
 
- return [
+return [
     'ctrl' => [
         'title' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download',
         'label' => 'title',
         'descriptionColumn' => 'status',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'versioningWS' => true,
         'languageField' => 'sys_language_uid',
         'transOrigPointerField' => 'l10n_parent',
@@ -35,93 +34,10 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
     ],
     'types' => [
         '1' => [
-            'showitem' => 'file, owner, status, final, archived'
+            'showitem' => 'file, owner, status, final, archived, '
         ]
     ],
     'columns' => [
-        'sys_language_uid' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'special' => 'languages',
-                'items' => [
-                    [
-                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-                        -1,
-                        'flags-multiple'
-                    ]
-                ],
-                'default' => 0
-            ]
-        ],
-        'l10n_parent' => [
-            'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'default' => 0,
-                'items' => [
-                    [
-                        '',
-                        0
-                    ]
-                ],
-                'foreign_table' => 'tx_cydownloadlibrary_domain_model_document',
-                'foreign_table_where' => 'AND {#tx_cydownloadlibrary_domain_model_document}.{#pid}=###CURRENT_PID### AND {#tx_cydownloadlibrary_domain_model_document}.{#sys_language_uid} IN (-1,0)'
-            ]
-        ],
-        'l10n_diffsource' => [
-            'config' => [
-                'type' => 'passthrough'
-            ]
-        ],
-        'hidden' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.visible',
-            'config' => [
-                'type' => 'check',
-                'renderType' => 'checkboxToggle',
-                'items' => [
-                    [
-                        0 => '',
-                        1 => '',
-                        'invertStateDisplay' => true
-                    ]
-                ]
-            ]
-        ],
-        'starttime' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
-            'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
-                'eval' => 'datetime,int',
-                'default' => 0,
-                'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
-            ]
-        ],
-        'endtime' => [
-            'exclude' => true,
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
-            'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
-                'eval' => 'datetime,int',
-                'default' => 0,
-                'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
-                ],
-                'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
-            ]
-        ],
         'title' => [
             'exclude' => true,
             'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.title',
@@ -151,37 +67,34 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
                 'foreign_table' => 'fe_users',
                 'minitems' => 1,
                 'maxitems' => 1,
-                 'readOnly' => false,
+                'readOnly' => false,
             ]
         ],
         'final' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.final',
+            'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.properties',
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
-               // 'readOnly' => true,
+                // 'readOnly' => true,
                 'items' => [
                     [
-                        0 => '',
-                        1 => '',
-                    ]
+                        'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.property.final',
+                    ], 
                 ]
-
             ]
         ],
         'archived' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.archived',
+            'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.properties',
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
                 'readOnly' => false,
                 'items' => [
                     [
-                        0 => '',
-                        1 => '',
-                    ]
+                        'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.property.archived',
+                    ], 
                 ]
 
             ]
@@ -189,13 +102,11 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
         'status' => [
             'exclude' => true,
             'label' => 'LLL:EXT:cy_download_library/Resources/Private/Language/locallang_db.xlf:tx_downloadlibrary_domain_model_download.status',
-            'config' => [
-                'readOnly' => true,
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
-                'eval' => 'date,int',
-                'dbType' => 'date',
+            'config' => [ 
+                'type' => 'datetime',
+                'format' => 'date',
                 'default' => 0,
+                'readOnly' => true,
             ]
         ],
 
