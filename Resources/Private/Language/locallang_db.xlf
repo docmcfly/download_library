@@ -18,10 +18,13 @@
 			<trans-unit id="tx_downloadlibrary_domain_model_download.status">
 				<source>Status of the document</source>
 			</trans-unit>
-			<trans-unit id="tx_downloadlibrary_domain_model_download.final">
-				<source>Is final</source>
+			<trans-unit id="tx_downloadlibrary_domain_model_download.properties">
+				<source>Properties</source>
 			</trans-unit>
-			<trans-unit id="tx_downloadlibrary_domain_model_download.archived">
+			<trans-unit id="tx_downloadlibrary_domain_model_download.property.final">
+				<source>Is final version</source>
+			</trans-unit>
+			<trans-unit id="tx_downloadlibrary_domain_model_download.property.archived">
 				<source>Is archived</source>
 			</trans-unit>
 	
